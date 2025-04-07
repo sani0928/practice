@@ -1,5 +1,3 @@
-# 모든 정점의 부모가 spot 중 하나에 포함되어야 한다.
-
 def find(x):
     if parent[x] != x:
         parent[x] = find(parent[x])
@@ -11,14 +9,10 @@ def union(a,b,w):
     root_a = find(a)
     root_b = find(b)
 
-    if root_a == root_b:
-        return
-
     if root_a in spot and root_b in spot:
         return
 
     cost += w
-
 
     if root_a in spot:
         parent[root_b] = root_a
@@ -27,7 +21,7 @@ def union(a,b,w):
         parent[root_a] = root_b
 
 N, M, K = map(int,input().split())
-spot = list(map(int,input().split()))
+spot = set(map(int,input().split()))
 edges = []
 parent = [i for i in range(N+1)]
 cost = 0
@@ -42,7 +36,6 @@ for w,u,v in edges:
 
     if find(u) != find(v):
         union(u,v,w)
-
 
     if all(find(parent[i]) in spot for i in range(1, N+1)):
         print(cost)
